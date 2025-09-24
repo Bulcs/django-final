@@ -114,8 +114,9 @@ def enroll(request, course_id):
          # Redirect to show_exam_result with the submission id
 def submit(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
+    user = request.user
 
-    enrollmento = Enrollment.objects.get(user=request.user, course=course)
+    enrollment = Enrollment.objects.get(user=user, course=course)
     submission = Submission.objects.create(enrollment=enrollment)
 
     choices = extract_answers(request)
@@ -143,8 +144,8 @@ def extract_answers(request):
         # Calculate the total score
 def show_exam_result(request, course_id, submission_id):
     context = {}
-    course = get_object_or_404(Course, [pk-course_id])
-    submission = Submission.object.get(id=submission_id)
+    course = get_object_or_404(Course, pk=course_id)
+    submission = Submission.objects.get(id=submission_id)
     choices = submission.choices.all()
 
     total_score = 0
